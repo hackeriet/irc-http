@@ -1,7 +1,9 @@
+#!/usr/bin/env node
+
 const assert = require('assert')
 const express = require('express')
 const bodyParser = require('body-parser')
-const IRCClient = require('./irc-client')
+const IRCClient = require('../irc-client')
 
 const HTTP_PORT = process.env.HTTP_PORT || 3000
 const IRC_HOST = process.env.IRC_HOST
@@ -40,7 +42,7 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
   return res.status(204).end()
 })
 
-client.on('ready', () => client.join(`#IRC_CHANNEL`))
+client.on('ready', () => client.join(`#${IRC_CHANNEL}`))
 client.on('end', () => {
   process.exit(0)
   // Close HTTP server too

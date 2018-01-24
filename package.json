@@ -8,9 +8,10 @@
     "http",
     "rest"
   ],
+  "bin": "bin/irc-http",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node bin/irc-http"
   },
   "author": "stigok",
   "license": "MIT",
