@@ -37,7 +37,7 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
 
   //client.msg(IRC_CHANNEL, msg)
   client.notice(IRC_CHANNEL, msg)
-  return res.status(201).json({error: null})
+  return res.status(204).end()
 })
 
 client.on('ready', () => client.join(`#IRC_CHANNEL`))
