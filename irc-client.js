@@ -14,18 +14,21 @@ class Client extends Socket {
     }
     this.connect(options)
 
-    this.on('connect', () => this._identify(options.nick))
-    this.on('ping', (host) => this.send(`PONG ${host}`))
-    
+    // Raise events from socket messages
     this
       .pipe(new LineBuffer())
       .pipe(EventStream([
-        [ /PING (\S+)/, ([, hostname]) => this.emit('ping', {hostname}) ],
+        [ /PING (\S+)/, ([, hostname]) => this.emit('ping', hostname) ],
         [ /^(\S+) PRIVMSG (\S+) :(.+)/, ([, from, to, msg]) => this.emit('msg', {from, to, msg}) ],
         [ /^\S+ 376/, () => this.emit('ready') ], // End of MOTD
         [ /^\S+ 433/, () => this.emit('error', 'Nickname in use') ],
         [ /^\S+ 451/, () => this.emit('error', 'Not registered') ],
       ]))
+
+
+    // Handle the most important things automatically
+    this.on('connect', () => this._identify(options.nick))
+    this.on('ping', (host) => this.send(`PONG ${host}`))
   }
 
   send (msg, cb) {
@@ -35,6 +38,10 @@ class Client extends Socket {
 
   msg (to, text) {
     this.send(`PRIVMSG ${to} :${text}`)
+  }
+
+  notice (to, text) {
+    this.send(`NOTICE ${to} :${text}`)
   }
 
   join (chan) {
@@ -55,20 +62,22 @@ class Client extends Socket {
   }
 }
 
+module.exports = Client
+
 if (!module.parent) {
   const client = new Client({
     host: 'chat.freenode.net',
     port: 6667,
-    nick: 'sshowfojs',
-    dryRun: true
+    nick: 'sshowfojs'
   })
   const chan = '#hackeriet'
 
   client.pipe(process.stdout)
 
+  // Write messages through stdin
   process.stdin
     .pipe(new LineBuffer())
-    .on('data', (line) => client.send(`PRIVMSG ${chan} :${line}`))
+    .on('data', (line) => client.msg(chan, line))
 
   client.on('ready', () => client.join(chan))
   client.on('msg', (msg) => console.log(msg))
