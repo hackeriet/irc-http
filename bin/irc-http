@@ -37,8 +37,8 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
   if (!msg || !msg.length)
     return res.status(400).json({error: 'Message must be longer than 0 chars'})
 
-  //client.msg(IRC_CHANNEL, msg)
-  client.notice(IRC_CHANNEL, msg)
+  //client.msg(`#${IRC_CHANNEL}`, msg)
+  client.notice(`#${IRC_CHANNEL}`, msg)
   return res.status(204).end()
 })
 
