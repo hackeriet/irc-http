@@ -49,7 +49,7 @@ client.on('end', () => {
   if (server)
     server.destroy()
 })
-//client.on('msg', (msg) => console.log(msg))
+client.on('msg', (msg) => console.log(msg))
 
 // Set up HTTP After IRC has connected
 client.on('ready', () => {
