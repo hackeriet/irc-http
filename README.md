@@ -17,6 +17,14 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"msg": "Hello, world!"}'
 
 ### Run the binary
 
+Requires Node.js v6 or later.
+
+Install package dependencies
+
+```
+$ npm install
+```
+
 The included binary in `bin/irc-http` connects to an IRC server then
 starts an HTTP server that serves the API.
 
