@@ -64,34 +64,3 @@ class Client extends Socket {
 
 module.exports = Client
 
-if (!module.parent) {
-  const client = new Client({
-    host: 'chat.freenode.net',
-    port: 6667,
-    nick: 'sshowfojs'
-  })
-  const chan = '#hackeriet'
-
-  client.pipe(process.stdout)
-
-  // Write messages through stdin
-  process.stdin
-    .pipe(new LineBuffer())
-    .on('data', (line) => client.msg(chan, line))
-
-  client.on('ready', () => client.join(chan))
-  client.on('msg', (msg) => console.log(msg))
-  client.on('end', () => process.exit(0))
-
-  let quitAttempts = 0
-  process.on('SIGINT', () => {
-    if (++quitAttempts > 1) {
-      process.exit(1)
-    }
-
-    client.send('QUIT :quitting', () => {
-      console.log('Quit successfully')
-    })
-  })
-}
-
