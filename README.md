@@ -38,3 +38,5 @@ HTTP server listen on `127.0.0.1:3000` on the docker host.
 ```
 $ docker run -d --name irc-http -e IRC_HOST=chat.freenode.net -e IRC_PORT=6667 -e IRC_NICK=hackerbot-js -e IRC_CHANNEL=hackeriet -p '127.0.0.1:3000:3000' irc-http
 ```
+
+The attached `docker-compose.yml` file makes this a little prettier.

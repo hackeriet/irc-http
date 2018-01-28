@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  client:
+    image: irc-http:latest
+    build: .
+    environment:
+      IRC_HOST: chat.freenode.net
+      IRC_PORT: 6667
+      IRC_NICK: hackeriet-js
+      IRC_REALNAME: "github.com/hackeriet/irc-http"
+      IRC_CHANNEL: hackeriet
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: on-failure
+
