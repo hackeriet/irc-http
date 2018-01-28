@@ -31,6 +31,7 @@ const client = new IRCClient({
 })
 
 // HTTP API
+app.enable('trust proxy')
 app.use((req, res, next) => {
   console.log('WWW: %s %s %s', req.method, req.originalUrl, req.ip)
   next()
