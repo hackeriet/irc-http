@@ -23,7 +23,7 @@ const app = express()
 let server
 
 // IRC Client
-console.log('Connecting to IRC')
+console.log('IRC: Connecting to %s:%s as %s', IRC_HOST, IRC_PORT, IRC_NICK)
 const client = new IRCClient({
   host: IRC_HOST,
   port: IRC_PORT,
@@ -54,12 +54,13 @@ client.on('end', () => {
   if (server)
     server.destroy()
 })
-client.on('msg', (msg) => console.log(msg))
+//client.on('msg', (msg) => console.log(msg))
 
 // Set up HTTP After IRC has connected
 client.on('ready', () => {
+  console.log('IRC: Connected to server')
   server = app.listen(HTTP_PORT, () => {
-    console.log(`Listening on HTTP on port ${HTTP_PORT}`)
+    console.log(`WWW: Listening on port ${HTTP_PORT}`)
   })
 })
 
@@ -82,8 +83,8 @@ function attemptExit () {
     console.error('Forcefully exiting!')
     process.exit(1)
   }
-  console.log('Waiting for connection to close gracefully...')
+  console.log('IRC: Waiting for connection to close gracefully...')
   client.send('QUIT :quitting', () => {
-    console.log('Quit successfully')
+    console.log('IRC: Quit successfully')
   })
 }
