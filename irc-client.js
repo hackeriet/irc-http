@@ -32,8 +32,8 @@ class Client extends Socket {
   }
 
   send (msg, cb) {
-    super.write(`${msg}\r\n`, cb)
-    console.log('***', msg)
+    if (!super.destroyed)
+      super.write(`${msg}\r\n`, cb)
   }
 
   msg (to, text) {
