@@ -7,10 +7,10 @@ the JSON message body to contain `{"msg": "message text"}`. When successfully
 invoked, it will send a `NOTICE` with the message text to the channel the
 client resides in.
 
-An example `curl` request would look like this
+An example `curl` request for a client in `#hackeriet` would look like this
 
 ```
-$ curl -X POST -H "Content-Type: application/json" -d '{"msg": "Hello, world!"}' http://127.0.0.1:3000/irc-http/hackeriet
+$ curl -X POST -H "Content-Type: application/json" -d '{"msg": "Hello, world!"}' http://127.0.0.1:3000/hackeriet
 ```
 
 ## Install and run
