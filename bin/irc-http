@@ -58,7 +58,7 @@ client.on('ready', () => client.join(`#${IRC_CHANNEL}`))
 client.on('end', () => {
   // Close HTTP server on socket close
   if (server)
-    server.destroy()
+    server.close()
 })
 //client.on('msg', (msg) => console.log(msg))
 
