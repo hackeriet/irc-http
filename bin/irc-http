@@ -45,12 +45,18 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
   //client.msg(`#${IRC_CHANNEL}`, msg)
   client.notice(`#${IRC_CHANNEL}`, msg)
   return res.status(204).end()
+}, (err, req, res, next) => {
+  const msg = err ? err.message || err : 'An error occured'
+  return res.status(400).json({error: msg})
+})
+app.use((err, req, res, next) => {
+  console.error(err)
+  res.status(500).json({error: 'Server error'})
 })
 
 client.on('ready', () => client.join(`#${IRC_CHANNEL}`))
 client.on('end', () => {
-  process.exit(0)
-  // Close HTTP server too
+  // Close HTTP server on socket close
   if (server)
     server.destroy()
 })
