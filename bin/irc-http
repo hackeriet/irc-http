@@ -49,10 +49,15 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
   const msg = err ? err.message || err : 'An error occured'
   return res.status(400).json({error: msg})
 })
-app.use((err, req, res, next) => {
-  console.error(err)
-  res.status(500).json({error: 'Server error'})
-})
+app.use(
+  (req, res, next) => {
+    res.status(404).json({error: 'Not found'})
+  },
+  (err, req, res, next) => {
+    console.error(err)
+    res.status(500).json({error: 'Server error'})
+  }
+)
 
 client.on('ready', () => client.join(`#${IRC_CHANNEL}`))
 client.on('end', () => {
