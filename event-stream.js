@@ -1,3 +1,23 @@
+/*
+
+This module returns a transform stream that can be used
+in a pipeline. It takes a single argument containing a
+list of pairs each containing a regex pattern, and
+a function to run when the pattern matches the incoming
+string.
+
+The following example parses a logfile and prints out
+INFO messages to stdout and ERROR messages to stderr.
+
+fs.createReadStream('./logfile.log')
+  .pipe(new LineBuffer()) // split chunks by lines
+  .pipe(new EventStream([
+    [/$INFO: (.+)^/, ([match, message]) => console.log(message)],
+    [/$ERROR: (.+)^/, ([match, message]) => console.error(message)]
+  ]))
+
+*/
+
 const { Transform } = require('stream')
 const EventEmitter = require('events')
 
