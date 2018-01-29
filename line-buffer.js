@@ -1,8 +1,8 @@
 /*
 
 This module splits an incoming text stream by newline \n, and buffers
-text without a newline until an additional newline comes along, or on
-before the stream is closed.
+text without a newline until an additional newline comes along, or when
+the stream is closed.
 
 */
 
