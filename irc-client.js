@@ -29,6 +29,15 @@ class Client extends Socket {
     // Handle the most important things automatically
     this.on('connect', () => this._identify(options.nick))
     this.on('ping', (host) => this.send(`PONG ${host}`))
+    this.on('error', (err) => {
+      console.error('Socket error:', err)
+    })
+    this.on('close', (hadError) => {
+      if (hadError) {
+        console.log('Reconnecting after socket transmission error')
+        this.connect(options)
+      }
+    })
   }
 
   send (msg, cb) {
