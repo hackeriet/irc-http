@@ -18,7 +18,7 @@ class Client extends Socket {
     const debugLog = new PassThrough()
     debugLog.on('data', (data) => {
       if (options.debug)
-        console.log('DEBUG', data.toString().trim())
+        console.log('DEBUG <', data.toString().trim())
     })
 
     // Raise events from socket messages
@@ -50,8 +50,10 @@ class Client extends Socket {
   }
 
   send (msg, cb) {
-    if (!super.destroyed)
+    if (!super.destroyed) {
       super.write(`${msg}\r\n`, cb)
+      console.log('DEBUG >', msg.trim())
+    }
   }
 
   msg (to, text) {
