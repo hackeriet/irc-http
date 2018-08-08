@@ -2,10 +2,24 @@
 
 ## Usage
 
-The HTTP API has a single method; `POST /<channel name>`, which expects
-the JSON message body to contain `{"msg": "message text"}`. When successfully
-invoked, it will send a `NOTICE` with the message text to the channel the
-client resides in.
+API endpoints
+
+### `POST /channel`
+
+Accepts `Content-Type: application/json` with a body like `{"msg": "message text"}` which sends a notice to the channel.
+
+#### Returns
+
+- `204` with an empty body on success
+
+### `GET /topic`
+
+#### Returns
+
+- `200` with a body like `{"channel":"hackeriet","topic":"The space is: CLOSED | irc is: PUBLIC | hackeriet.no | ☯"}`
+
+
+## Examples
 
 An example `curl` request for a client in `#hackeriet` would look like this
 
@@ -44,7 +58,7 @@ Set environment and start the container. The below example will make the
 HTTP server listen on `127.0.0.1:3000` on the docker host.
 
 ```
-$ docker run -d --name irc-http -e IRC_HOST=chat.freenode.net -e IRC_PORT=6667 -e IRC_NICK=hackerbot-js -e IRC_CHANNEL=hackeriet -p '127.0.0.1:3000:3000' irc-http
+$ docker run -d --name irc-http -e IRC_HOST=chat.freenode.net -e IRC_PORT=6667 -e IRC_NICK=hackerbot-js -e IRC_CHANNEL=hackeriet -e DEBUG=1 -p '127.0.0.1:3000:3000' irc-http
 ```
 
 The attached `docker-compose.yml` file makes this a little prettier.

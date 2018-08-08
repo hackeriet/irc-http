@@ -10,6 +10,7 @@ const IRC_HOST = process.env.IRC_HOST
 const IRC_PORT = process.env.IRC_PORT || 6667
 const IRC_NICK = process.env.IRC_NICK
 const IRC_CHANNEL = process.env.IRC_CHANNEL
+const DEBUG = process.env.DEBUG || false
 
 // Quick sanity check
 assert(IRC_HOST, 'Missing IRC_HOST')
@@ -27,7 +28,8 @@ console.log('IRC: Connecting to %s:%s as %s', IRC_HOST, IRC_PORT, IRC_NICK)
 const client = new IRCClient({
   host: IRC_HOST,
   port: IRC_PORT,
-  nick: IRC_NICK
+  nick: IRC_NICK,
+  debug: DEBUG
 })
 
 // HTTP API
@@ -48,6 +50,15 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
 }, (err, req, res, next) => {
   const msg = err ? err.message || err : 'An error occured'
   return res.status(400).json({error: msg})
+})
+app.get(`/${IRC_CHANNEL}/topic`, (req, res, next) => {
+  client.get_topic(IRC_CHANNEL, (err, topic) => {
+    if (err) return res.status(500).json({error: 'An error occured while fetching topic'})
+    res.status(200).json({
+      channel: IRC_CHANNEL,
+      topic: topic
+    })
+  })
 })
 app.use(
   (req, res, next) => {
