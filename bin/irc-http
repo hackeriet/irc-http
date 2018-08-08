@@ -10,6 +10,7 @@ const IRC_HOST = process.env.IRC_HOST
 const IRC_PORT = process.env.IRC_PORT || 6667
 const IRC_NICK = process.env.IRC_NICK
 const IRC_CHANNEL = process.env.IRC_CHANNEL
+const DEBUG = process.env.DEBUG || false
 
 // Quick sanity check
 assert(IRC_HOST, 'Missing IRC_HOST')
@@ -27,7 +28,8 @@ console.log('IRC: Connecting to %s:%s as %s', IRC_HOST, IRC_PORT, IRC_NICK)
 const client = new IRCClient({
   host: IRC_HOST,
   port: IRC_PORT,
-  nick: IRC_NICK
+  nick: IRC_NICK,
+  debug: DEBUG
 })
 
 // HTTP API

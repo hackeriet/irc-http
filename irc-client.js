@@ -1,5 +1,6 @@
 const LineBuffer = require('./line-buffer')
 const EventStream = require('./event-stream')
+const { PassThrough } = require('stream')
 const { Socket, createServer } = require('net')
 
 class Client extends Socket {
@@ -14,9 +15,16 @@ class Client extends Socket {
     }
     this.connect(options)
 
+    const debugLog = new PassThrough()
+    debugLog.on('data', (data) => {
+      if (options.debug)
+        console.log('DEBUG', data.toString().trim())
+    })
+
     // Raise events from socket messages
     this
       .pipe(new LineBuffer())
+      .pipe(debugLog)
       .pipe(EventStream([
         [ /PING (\S+)/, ([, hostname]) => this.emit('ping', hostname) ],
         [ /^(\S+) PRIVMSG (\S+) :(.+)/, ([, from, to, msg]) => this.emit('msg', {from, to, msg}) ],
