@@ -16,7 +16,7 @@
   "author": "stigok",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.3"
   }
 }
