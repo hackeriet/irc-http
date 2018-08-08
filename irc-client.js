@@ -31,6 +31,7 @@ class Client extends Socket {
         [ /^\S+ 376/, () => this.emit('ready') ], // End of MOTD
         [ /^\S+ 433/, () => this.emit('error', 'Nickname in use') ],
         [ /^\S+ 451/, () => this.emit('error', 'Not registered') ],
+        [ /^\S+ 331 [^:]+:(.+)/, ([, topic]) => this.emit('topic', null) ],
         [ /^\S+ 332 [^:]+:(.+)/, ([, topic]) => this.emit('topic', topic) ],
       ]))
 
