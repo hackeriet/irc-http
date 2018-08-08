@@ -23,6 +23,7 @@ class Client extends Socket {
         [ /^\S+ 376/, () => this.emit('ready') ], // End of MOTD
         [ /^\S+ 433/, () => this.emit('error', 'Nickname in use') ],
         [ /^\S+ 451/, () => this.emit('error', 'Not registered') ],
+        [ /^\S+ 332 [^:]+:(.+)/, ([, topic]) => this.emit('topic', topic) ],
       ]))
 
 
@@ -51,6 +52,17 @@ class Client extends Socket {
 
   notice (to, text) {
     this.send(`NOTICE ${to} :${text}`)
+  }
+
+  // TODO: This currently only supports a single channel
+  set_topic (chan, new_topic, cb) {
+    this.send(`TOPIC #${chan} :${new_topic}`)
+    this.once('topic', (topic) => cb(null, topic))
+  }
+
+  get_topic (chan, cb) {
+    this.send(`TOPIC #${chan}`)
+    this.once('topic', (topic) => cb(null, topic))
   }
 
   join (chan) {
