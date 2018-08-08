@@ -1,7 +1,7 @@
 {
   "name": "irc-http",
   "version": "0.1.0",
-  "description": "Send messages to IRC via HTTP",
+  "description": "Simple IRC operations over HTTP",
   "keywords": [
     "irc",
     "bot",
