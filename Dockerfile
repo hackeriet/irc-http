@@ -5,4 +5,4 @@ RUN npm install --production
 
 COPY . .
 EXPOSE 3000
-CMD ["bin/irc-http"]
+CMD ["npm", "start"]
