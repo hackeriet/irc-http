@@ -54,9 +54,16 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
 app.get(`/${IRC_CHANNEL}/topic`, (req, res, next) => {
   client.get_topic(IRC_CHANNEL, (err, topic) => {
     if (err) return res.status(500).json({error: 'An error occured while fetching topic'})
-    res.status(200).json({
-      channel: IRC_CHANNEL,
-      topic: topic
+    res.status(200).format({
+      text: () => {
+        res.send(topic)
+      },
+      json: () => {
+        res.json({
+          channel: IRC_CHANNEL,
+          topic: topic
+        })
+      }
     })
   })
 })
