@@ -54,9 +54,16 @@ app.post(`/${IRC_CHANNEL}`, bodyParser.json(), (req, res, next) => {
 app.get(`/${IRC_CHANNEL}/topic`, (req, res, next) => {
   client.get_topic(IRC_CHANNEL, (err, topic) => {
     if (err) return res.status(500).json({error: 'An error occured while fetching topic'})
-    res.status(200).json({
-      channel: IRC_CHANNEL,
-      topic: topic
+    res.status(200).format({
+      text: () => {
+        res.send(topic)
+      },
+      json: () => {
+        res.json({
+          channel: IRC_CHANNEL,
+          topic: topic
+        })
+      }
     })
   })
 })
@@ -79,7 +86,7 @@ client.on('end', () => {
 //client.on('msg', (msg) => console.log(msg))
 
 // Set up HTTP After IRC has connected
-client.on('ready', () => {
+client.once('ready', () => {
   console.log('IRC: Connected to server')
   server = app.listen(HTTP_PORT, () => {
     console.log(`WWW: Listening on port ${HTTP_PORT}`)
