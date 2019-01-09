@@ -9,7 +9,7 @@ services:
       IRC_PORT: 6667
       IRC_NICK: hackeriet-js
       IRC_REALNAME: "github.com/hackeriet/irc-http"
-      IRC_CHANNEL: hackeriet
+      IRC_CHANNEL: oslohackerspace
       DEBUG: 1
     ports:
       - "127.0.0.1:3000:3000"
