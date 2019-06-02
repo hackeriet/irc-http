@@ -44,7 +44,7 @@ class Client extends Socket {
     })
     this.on('close', (hadError) => {
       if (hadError) {
-        console.log('Reconnecting after socket transmission error')
+        console.log('Reconnecting after socket closed')
         this.connect(options)
       }
     })
