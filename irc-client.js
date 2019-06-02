@@ -34,7 +34,13 @@ class Client extends Socket {
     this.on('connect', () => this._identify(options.nick))
     this.on('ping', (host) => this.send(`PONG ${host}`))
     this.on('error', (err) => {
-      console.error('Socket error:', err)
+      if (err.message && err.message.match(/This socket is closed/)) {
+        console.log('Socket was closed. Reconnecting...')
+        this.connect(options)
+      } else {
+        console.error(err)
+        super.destroy()
+      }
     })
     this.on('close', (hadError) => {
       if (hadError) {
