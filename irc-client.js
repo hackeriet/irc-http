@@ -29,7 +29,6 @@ class Client extends Socket {
         [ /^\S+ 332 [^:]+:(.+)/, ([, topic]) => this.emit('topic', topic) ],
       ]))
 
-
     // Handle the most important things automatically
     this.on('connect', () => this._identify(options.nick))
     this.on('ping', (host) => this.send(`PONG ${host}`))
