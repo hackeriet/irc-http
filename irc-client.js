@@ -89,7 +89,7 @@ class Client extends Socket {
   }
 
   _identify (nick) {
-    this.send(`USER ${nick} * * :${nick}`) 
+    this.send(`USER ${nick} * * :${nick}`)
     this.nick(nick)
   }
 }
