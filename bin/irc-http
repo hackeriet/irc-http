@@ -87,7 +87,6 @@ client.on('end', () => {
   if (server)
     server.close()
 })
-//client.on('msg', (msg) => console.log(msg))
 
 // Set up HTTP After IRC has connected
 client.once('ready', () => {
