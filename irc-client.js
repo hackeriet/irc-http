@@ -11,10 +11,9 @@ class Client extends Socket {
     this.connect(options)
 
     const debugLog = new PassThrough()
-    debugLog.on('data', (data) => {
-      if (options.debug)
-        console.log('DEBUG <', data.toString().trim())
-    })
+    if (options.debug) {
+      debugLog.on('data', (data) => console.log('DEBUG <', data.toString().trim()))
+    }
 
     // Raise events from socket messages
     this
