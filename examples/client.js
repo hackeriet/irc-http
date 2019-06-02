@@ -23,7 +23,8 @@ client.on('msg', (msg) => console.log(msg))
 
 // Close connection gracefully on CTRL+C
 process.on('SIGINT', () => {
-  client.quit('Sayonara!', () => {
+  const quitmsg = 'Sayonara!';
+  client.quit(quitmsg, () => {
     console.log('Quit gracefully')
   })
 })
