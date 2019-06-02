@@ -78,8 +78,12 @@ app.use(
 )
 
 client.on('ready', () => client.join(`#${IRC_CHANNEL}`))
+// Close HTTP server on socket close
+client.on('close', () => {
+  if (server)
+    server.close()
+})
 client.on('end', () => {
-  // Close HTTP server on socket close
   if (server)
     server.close()
 })
