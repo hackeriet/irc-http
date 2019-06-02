@@ -66,7 +66,6 @@ class Client extends Socket {
     this.send(`NOTICE ${to} :${text}`)
   }
 
-  // TODO: This currently only supports a single channel
   set_topic (chan, new_topic, cb) {
     this.send(`TOPIC #${chan} :${new_topic}`)
     this.once('topic', (topic) => cb(null, topic))
