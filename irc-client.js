@@ -8,12 +8,6 @@ class Client extends Socket {
   constructor (options) {
     super(options)
     this.setEncoding('utf8')
-
-    if (options.dryRun) {
-      const serv = createServer().listen(11337)
-      serv.on('connection', (s) => s.on('data', (data) => console.log('SERVER', data)))
-      Object.assign(options, {host: 'localhost', port: 11337})
-    }
     this.connect(options)
 
     const debugLog = new PassThrough()
