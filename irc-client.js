@@ -11,7 +11,7 @@ class Client extends Socket {
 
     if (options.dryRun) {
       const serv = createServer().listen(11337)
-      serv.on('connection', s => s.on('data', (data) => console.log('SERVER', data)))
+      serv.on('connection', (s) => s.on('data', (data) => console.log('SERVER', data)))
       Object.assign(options, {host: 'localhost', port: 11337})
     }
     this.connect(options)
