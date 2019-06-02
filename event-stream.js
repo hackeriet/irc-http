@@ -1,5 +1,5 @@
-const { Transform } = require('stream')
 const EventEmitter = require('events')
+const { Transform } = require('stream')
 
 function EventStream (patternMap) {
   return new Transform({

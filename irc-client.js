@@ -1,7 +1,8 @@
-const LineBuffer = require('./line-buffer')
-const EventStream = require('./event-stream')
 const { PassThrough } = require('stream')
 const { Socket, createServer } = require('net')
+
+const LineBuffer = require('./line-buffer')
+const EventStream = require('./event-stream')
 
 class Client extends Socket {
   constructor (options) {
