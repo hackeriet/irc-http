@@ -79,7 +79,7 @@ client.on('end', () => {
 //client.on('msg', (msg) => console.log(msg))
 
 // Set up HTTP After IRC has connected
-client.on('ready', () => {
+client.once('ready', () => {
   console.log('IRC: Connected to server')
   server = app.listen(HTTP_PORT, () => {
     console.log(`WWW: Listening on port ${HTTP_PORT}`)
