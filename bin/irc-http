@@ -111,4 +111,9 @@ function attemptExit () {
   client.send('QUIT :quitting', () => {
     console.log('IRC: Quit successfully')
   })
+  if (server) {
+    server.close(() => {
+      console.log('Stopped HTTP server')
+    })
+  }
 }
