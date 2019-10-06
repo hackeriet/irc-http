@@ -81,9 +81,11 @@ client.on('end', () => {
 // Set up HTTP After IRC has connected
 client.once('ready', () => {
   console.log('IRC: Connected to server')
+
   server = app.listen(HTTP_PORT, () => {
     console.log(`WWW: Listening on port ${HTTP_PORT}`)
   })
+  server.on('error', (err) => console.error(err))
 })
 
 // Docker container stop request
