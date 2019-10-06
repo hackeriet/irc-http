@@ -114,7 +114,7 @@ function attemptExit () {
   })
   if (server) {
     server.close(() => {
-      console.log('Stopped HTTP server')
+      console.log('WWW: Stopped HTTP server')
     })
   }
 }
