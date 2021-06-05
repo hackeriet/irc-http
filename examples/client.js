@@ -2,7 +2,7 @@ const Client = require('../irc-client')
 const LineBuffer = require('../line-buffer')
 
 const client = new Client({
-  host: 'chat.freenode.net',
+  host: 'irc.libera.chat',
   port: 6667,
   nick: 'sshowbro'
 })
