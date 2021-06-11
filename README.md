@@ -43,7 +43,7 @@ The included binary in `bin/irc-http` connects to an IRC server then
 starts an HTTP server that serves the API.
 
 ```
-$ IRC_HOST=chat.freenode.net IRC_PORT=6667 IRC_NICK=hackerbot-js IRC_CHANNEL=hackeriet bin/irc-http
+$ IRC_HOST=irc.libera.chat IRC_PORT=6667 IRC_NICK=hackerbot-js IRC_CHANNEL=hackeriet bin/irc-http
 ```
 
 ### Run with docker
@@ -58,7 +58,7 @@ Set environment and start the container. The below example will make the
 HTTP server listen on `127.0.0.1:3000` on the docker host.
 
 ```
-$ docker run -d --name irc-http -e IRC_HOST=chat.freenode.net -e IRC_PORT=6667 -e IRC_NICK=hackerbot-js -e IRC_CHANNEL=hackeriet -e DEBUG=1 -p '127.0.0.1:3000:3000' irc-http
+$ docker run -d --name irc-http -e IRC_HOST=irc.libera.chat -e IRC_PORT=6667 -e IRC_NICK=hackerbot-js -e IRC_CHANNEL=hackeriet -e DEBUG=1 -p '127.0.0.1:3000:3000' irc-http
 ```
 
 The attached `docker-compose.yml` file makes this a little prettier.
