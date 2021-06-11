@@ -5,7 +5,7 @@ services:
     image: irc-http:latest
     build: .
     environment:
-      IRC_HOST: chat.freenode.net
+      IRC_HOST: irc.libera.chat
       IRC_PORT: 6667
       IRC_NICK: hackeriet-js
       IRC_REALNAME: "github.com/hackeriet/irc-http"
