@@ -1,19 +1,30 @@
 const LineBuffer = require('./line-buffer')
 const EventStream = require('./event-stream')
 const { PassThrough } = require('stream')
-const { Socket, createServer } = require('net')
+const EventEmitter = require('events');
+const tls = require('tls')
+const net = require('net')
 
-class Client extends Socket {
+
+class Client extends EventEmitter {
   constructor (options) {
-    super(options)
-    this.setEncoding('utf8')
+    super()
 
     if (options.dryRun) {
-      const serv = createServer().listen(11337)
+      const serv = net.createServer().listen(11337)
       serv.on('connection', s => s.on('data', (data) => console.log('SERVER', data)))
-      Object.assign(options, {host: 'localhost', port: 11337})
+      Object.assign(options, {host: 'localhost', port: 11337, tls: false})
     }
-    this.connect(options)
+
+    if (options.tls) {
+      options.servername = options.host
+      this.socket = tls.connect(options)
+    } else {
+      this.socket = net.connect(options)
+    }
+
+    this.socket.setEncoding('utf8')
+
 
     const debugLog = new PassThrough()
     debugLog.on('data', (data) => {
@@ -22,7 +33,7 @@ class Client extends Socket {
     })
 
     // Raise events from socket messages
-    this
+    this.socket
       .pipe(new LineBuffer())
       .pipe(debugLog)
       .pipe(EventStream([
@@ -37,12 +48,12 @@ class Client extends Socket {
 
 
     // Handle the most important things automatically
-    this.on('connect', () => this._identify(options.nick))
+    this.socket.on('connect', () => this._identify(options.nick))
     this.on('ping', (host) => this.send(`PONG ${host}`))
-    this.on('error', (err) => {
+    this.socket.on('error', (err) => {
       console.error('Socket error:', err)
     })
-    this.on('close', (hadError) => {
+    this.socket.on('close', (hadError) => {
       if (hadError) {
         console.log('Reconnecting after socket transmission error')
         this.connect(options)
@@ -51,8 +62,8 @@ class Client extends Socket {
   }
 
   send (msg, cb) {
-    if (!super.destroyed) {
-      super.write(`${msg}\r\n`, cb)
+    if (!this.socket.destroyed) {
+      this.socket.write(`${msg}\r\n`, cb)
       console.log('DEBUG >', msg.trim())
     }
   }
