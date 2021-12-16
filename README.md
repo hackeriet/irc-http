@@ -4,7 +4,7 @@
 
 API endpoints
 
-### `POST /channel`
+### `POST /<channel>`
 
 Accepts `Content-Type: application/json` with a body like `{"msg": "message text"}` which sends a notice to the channel.
 
@@ -12,7 +12,7 @@ Accepts `Content-Type: application/json` with a body like `{"msg": "message text
 
 - `204` with an empty body on success
 
-### `GET /topic`
+### `GET /<channel>/topic`
 
 #### Returns
 
